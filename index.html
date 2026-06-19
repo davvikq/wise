@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Words of the wise — quotes from 30 great thinkers</title>
+  <meta name="description" content="Quotes from 30 great thinkers — Nietzsche, Socrates, Sun Tzu and more. Turn any quote into a shareable image card. English and Russian." />
+
+  <meta property="og:title" content="Words of the wise" />
+  <meta property="og:description" content="Turn quotes from 30 great thinkers into shareable image cards." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://davvikq.github.io/wise/" />
+  <meta property="og:image" content="https://davvikq.github.io/wise/assets/hero.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Forum&family=Instrument+Serif:ital@0;1&family=Libre+Bodoni:wght@500;600&family=Literata:wght@500;600&family=Lora:wght@500;600&family=Old+Standard+TT:wght@400;700&family=PT+Serif:wght@400;700&family=Playfair+Display:wght@500;600;700&family=Source+Serif+4:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="brand" href="#main" aria-label="Words of the wise">
+      <span class="brand-mark">“</span>
+      <span class="brand-name" data-i18n-html="brand">quotes<span class="brand-dim">.feed</span></span>
+    </a>
+    <nav class="nav-actions">
+      <div class="lang-toggle" role="group" aria-label="Quote language" data-i18n-aria="aria_lang">
+        <button type="button" class="lang-btn" data-lang="ru">RU</button>
+        <button type="button" class="lang-btn is-active" data-lang="en">EN</button>
+      </div>
+      <a class="nav-link" href="https://github.com/davvikq" target="_blank" rel="noopener">GitHub →</a>
+    </nav>
+  </header>
+
+  <main class="wrap" id="main">
+    <section class="hero">
+      <h1 class="title" data-i18n-html="title">Words of the <em>wise</em></h1>
+      <p class="subtitle" data-i18n="subtitle">Pick a thinker — the quote becomes an image, ready to share.</p>
+    </section>
+
+    <section class="picker" aria-label="Choose author" data-i18n-aria="aria_picker">
+      <div class="chips" id="authorChips"></div>
+    </section>
+
+    <section class="stage">
+      <div class="card-frame">
+        <canvas id="quoteCanvas" width="1920" height="1080" aria-label="Quote image" data-i18n-aria="aria_canvas"></canvas>
+      </div>
+
+      <div class="controls">
+        <div class="theme-toggle" role="group" aria-label="Card background" data-i18n-aria="aria_theme">
+          <button type="button" class="theme-btn is-active" data-theme="dark" title="Dark" data-i18n-title="theme_dark"><span class="sw sw-dark"></span></button>
+          <button type="button" class="theme-btn" data-theme="cream" title="Paper" data-i18n-title="theme_cream"><span class="sw sw-cream"></span></button>
+          <button type="button" class="theme-btn" data-theme="blue" title="Blue" data-i18n-title="theme_blue"><span class="sw sw-blue"></span></button>
+        </div>
+
+        <div class="buttons">
+          <button type="button" class="btn btn-primary" id="randomBtn">
+            <span class="btn-ico">↻</span> <span data-i18n="random">Random quote</span>
+          </button>
+          <button type="button" class="btn btn-ghost" id="copyBtn">
+            <span class="btn-ico">⧉</span> <span class="btn-label" data-i18n="copy">Copy</span>
+          </button>
+          <button type="button" class="btn btn-ghost" id="downloadBtn">
+            <span class="btn-ico">↓</span> <span data-i18n="download">Download PNG</span>
+          </button>
+        </div>
+
+        <button type="button" class="customize-toggle" id="customizeToggle" aria-expanded="false" aria-controls="customPanel">
+          <span class="btn-ico">⚙</span> <span data-i18n="customize">Customize</span>
+          <span class="chevron" aria-hidden="true">▾</span>
+        </button>
+
+        <div class="custom-panel" id="customPanel" hidden>
+          <div class="cust-row">
+            <span class="cust-label" data-i18n="c_font">Font</span>
+            <select id="fontSelect" class="cust-select" aria-label="Font"></select>
+          </div>
+          <div class="cust-row">
+            <span class="cust-label" data-i18n="c_size">Size</span>
+            <input type="range" id="sizeRange" class="cust-range" min="70" max="100" step="2" value="100" aria-label="Text size" />
+          </div>
+          <div class="cust-row">
+            <span class="cust-label" data-i18n="c_align">Alignment</span>
+            <div class="align-toggle" id="alignToggle" role="group">
+              <button type="button" class="align-btn is-active" data-align="left" title="Left" data-i18n-title="al_left">⇤</button>
+              <button type="button" class="align-btn" data-align="center" title="Center" data-i18n-title="al_center">↔</button>
+              <button type="button" class="align-btn" data-align="right" title="Right" data-i18n-title="al_right">⇥</button>
+            </div>
+          </div>
+          <div class="cust-row">
+            <span class="cust-label" data-i18n="c_kicker">Label</span>
+            <label class="cust-check">
+              <input type="checkbox" id="kickerToggle" checked />
+              <span data-i18n="c_kicker_show">Show “Quote”</span>
+            </label>
+          </div>
+          <div class="cust-row">
+            <span class="cust-label" data-i18n="c_colors">Colors</span>
+            <div class="color-row">
+              <label class="color-pick"><input type="color" id="bgColor" value="#16181d" /><span data-i18n="c_bg">Bg</span></label>
+              <label class="color-pick"><input type="color" id="textColor" value="#f4f1ea" /><span data-i18n="c_text">Text</span></label>
+              <label class="color-pick"><input type="color" id="accentColor" value="#6a8eff" /><span data-i18n="c_accent">Accent</span></label>
+            </div>
+          </div>
+          <div class="cust-row">
+            <span class="cust-label" data-i18n="c_nick">Your handle</span>
+            <input type="text" id="nickInput" class="cust-input" maxlength="24" placeholder="@username" />
+          </div>
+          <button type="button" class="cust-reset" id="resetBtn" data-i18n="c_reset">Reset settings</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="foot-item"><span class="foot-key" data-i18n="foot_authors">AUTHORS</span><span class="foot-val" id="statAuthors">—</span></div>
+    <div class="foot-item"><span class="foot-key" data-i18n="foot_quotes">QUOTES</span><span class="foot-val" id="statQuotes">—</span></div>
+    <div class="foot-item"><span class="foot-key" data-i18n="foot_format">FORMAT</span><span class="foot-val">PNG · 1920×1080 · 16:9</span></div>
+    <div class="foot-item"><span class="foot-key">GITHUB</span><a class="foot-val foot-link" href="https://github.com/davvikq" target="_blank" rel="noopener">@davvikq</a></div>
+    <p class="foot-note" data-i18n="disclaimer">Wording may differ between editions and translations.</p>
+  </footer>
+
+  <script src="quotes.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
