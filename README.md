@@ -13,9 +13,12 @@
 <p align="center">
   <a href="https://davvikq.github.io/wise/"><img src="https://img.shields.io/badge/demo-live-2f5fe0" alt="Live demo"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="MIT License"></a>
-  <img src="https://img.shields.io/badge/build-none-444" alt="No build step">
-  <img src="https://img.shields.io/badge/deps-0-444" alt="Zero dependencies">
   <a href="https://github.com/davvikq/wise/stargazers"><img src="https://img.shields.io/github/stars/davvikq/wise?style=social" alt="GitHub stars"></a>
+</p>
+
+<p align="center">
+  <strong><a href="https://davvikq.github.io/wise/">▶ Open the live site → davvikq.github.io/wise</a></strong><br>
+  <sub>It's already hosted — no need to clone or deploy your own copy to use it.</sub>
 </p>
 
 <p align="center">
@@ -77,6 +80,8 @@ Then open the printed URL. No install, no toolchain.
 
 ## Deploy
 
+> **It's already live at [davvikq.github.io/wise](https://davvikq.github.io/wise/).** You only need this section to host your own copy.
+
 There's no build, so deploying is just hosting the files. For GitHub Pages:
 
 1. Push to a repository.
@@ -97,4 +102,4 @@ a given line may not match a specific printing word for word.
 
 ## License
 
-[MIT](LICENSE) © davvikq
+MIT — use it, fork it, ship it. © 2026 Davvik.
