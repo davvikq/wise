@@ -56,13 +56,24 @@
   const currentFont = () => FONTS[state.font[state.lang]] || FONTS.instrument;
 
   const SYSTEM_FONTS = ["Georgia", "Segoe Script", "Palatino Linotype", "Brush Script MT"];
-  async function ensureFont(f) {
-    const fams = (f.stack.match(/"([^"]+)"/g) || [])
+  const FONT_SAMPLE = "AaЯя0—"; // покрывает и латиницу, и кириллицу — грузим оба поднабора
+  const _fontReq = new Set();
+
+  function familiesOf(f) {
+    return (f.stack.match(/"([^"]+)"/g) || [])
       .map((s) => s.replace(/"/g, ""))
       .filter((n) => !SYSTEM_FONTS.includes(n));
-    try {
-      await Promise.all(fams.map((n) => document.fonts.load(`${f.weight} 80px "${n}"`)));
-    } catch (e) {}
+  }
+
+  // Загружает веб-семейства шрифта один раз. Резолвится в true, если что-то реально грузилось.
+  function ensureFont(f) {
+    if (!(document.fonts && document.fonts.load)) return Promise.resolve(false);
+    const pending = familiesOf(f).filter((n) => !_fontReq.has(f.weight + "|" + n));
+    if (!pending.length) return Promise.resolve(false);
+    pending.forEach((n) => _fontReq.add(f.weight + "|" + n));
+    return Promise.all(
+      pending.map((n) => document.fonts.load(`${f.weight} 80px "${n}"`, FONT_SAMPLE).catch(() => {}))
+    ).then(() => true);
   }
 
   function hexA(hex, a) {
@@ -242,6 +253,8 @@
     const text = quote[state.lang];
     const name = author.name[state.lang];
     const era = author.era[state.lang];
+
+    ensureFont(currentFont()).then((loaded) => { if (loaded) draw(); });
 
     const MX = 132;
     const right = W - MX;
