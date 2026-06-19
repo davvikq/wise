@@ -358,7 +358,7 @@ body {
   cursor: pointer;
 }
 
-.color-row { display: flex; gap: 14px; }
+.color-row { display: flex; flex-wrap: wrap; gap: 14px; }
 .color-pick {
   display: inline-flex;
   align-items: center;
@@ -434,6 +434,14 @@ body {
   .buttons { width: 100%; flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
   .foot { gap: 16px 26px; padding: 20px 18px; }
+
+  .custom-panel { max-width: 100%; padding: 18px 16px; gap: 16px; }
+  .cust-row { grid-template-columns: 1fr; gap: 8px; align-items: start; }
+  .cust-label { font-size: 10px; letter-spacing: 0.1em; }
+  .color-row { justify-content: space-between; gap: 10px; }
+  .color-pick { flex: 1; justify-content: center; }
+  .align-toggle { width: 100%; }
+  .align-btn { flex: 1; }
 }
 
 @media (max-width: 400px) {
