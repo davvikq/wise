@@ -344,15 +344,41 @@
     ctx.textAlign = "left";
   }
 
-  function download() {
-    const slug =
-      (state.current ? state.current.author.id : "quote") + "-" + Date.now();
-    const link = document.createElement("a");
-    link.download = `citata-${slug}.png`;
-    link.href = canvas.toDataURL("image/png");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  function imageFilename() {
+    const id = state.current ? state.current.author.id : "quote";
+    return `wise-${id}-${Date.now()}.png`;
+  }
+
+  function dataURLtoBlob(dataURL) {
+    const [head, b64] = dataURL.split(",");
+    const mime = (head.match(/:(.*?);/) || [])[1] || "image/png";
+    const bin = atob(b64);
+    const arr = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    return new Blob([arr], { type: mime });
+  }
+
+  function downloadBlob(blob, name) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function saveImage() {
+    const name = imageFilename();
+    const blob = dataURLtoBlob(canvas.toDataURL("image/png"));
+    const file = new File([blob], name, { type: "image/png" });
+    const isMobile = /iphone|ipad|ipod|android/i.test(navigator.userAgent);
+    if (isMobile && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file] }).catch(() => downloadBlob(blob, name));
+    } else {
+      downloadBlob(blob, name);
+    }
   }
 
   function copyText() {
@@ -438,7 +464,7 @@
     draw();
   });
 
-  downloadBtn.addEventListener("click", download);
+  downloadBtn.addEventListener("click", saveImage);
   copyBtn.addEventListener("click", copyText);
 
   document.querySelectorAll(".lang-btn").forEach((btn) => {

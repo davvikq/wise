@@ -102,4 +102,4 @@ a given line may not match a specific printing word for word.
 
 ## License
 
-MIT — use it, fork it, ship it. © 2026 Davvik.
+[MIT](LICENSE) — use it, fork it, ship it. © 2026 Davvik.
